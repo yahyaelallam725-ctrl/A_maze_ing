@@ -7,6 +7,7 @@ class Cell:
         self.south = True
         self.west = True
         self.visited = False
+        self.is_42 = False
 
 
 class Maze:
@@ -40,16 +41,16 @@ class Maze:
         y = cell.y
         neighbors = []
 
-        if self.is_inside(x, y + 1):
+        if self.is_inside(x, y + 1) and self.get_cell(x, y + 1).is_42 == False:
             neighbors.append(self.get_cell(x, y + 1))
 
-        if self.is_inside(x, y - 1):
+        if self.is_inside(x, y - 1) and self.get_cell(x, y - 1).is_42 == False:
             neighbors.append(self.get_cell(x, y - 1))
 
-        if self.is_inside(x + 1, y):
+        if self.is_inside(x + 1, y) and self.get_cell(x + 1, y).is_42== False:
             neighbors.append(self.get_cell(x + 1, y))
 
-        if self.is_inside(x - 1, y):
+        if self.is_inside(x - 1, y) and self.get_cell(x - 1, y).is_42 == False:
             neighbors.append(self.get_cell(x - 1, y))
 
         return neighbors
@@ -78,7 +79,6 @@ class Maze:
             else:
                 cell_a.east = False
                 cell_b.west = False             
-
 
 
 # def create_grid(self):

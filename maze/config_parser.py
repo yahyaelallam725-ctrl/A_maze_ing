@@ -65,27 +65,38 @@ class MazeConfig:
                 dic_data[key] = value
         return dic_data
 
-    def validate(self,data_dic : dict) -> bool:
 
-        keys = ["WIDTH","HEIGHT","ENTRY","EXIT","OUTPUT_FILE","PERFECT"]
+
+    def validate(self, data_dic: dict) -> bool:
+        keys = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT"]
         keys_dic = data_dic.keys()
+
         for elm in keys:
             if elm not in keys_dic:
-                raise  ValidationError("key not fond")
+                raise ValidationError("key not fond")
 
-        for key,value in data_dic.items():
-           
-            if key == "ENTRY":
-                entre = value
-            if key == "EXIT":
-                exite = value
-            if key == "WIDTH":
-                width = value
-            if key == "HEIGHT":
-                h = value
-            
-            if  (width <= 0  and h <= 0) :
-                raise ParseError("respect limete maze")
+        width = data_dic["WIDTH"]
+        height = data_dic["HEIGHT"]
+        entry = data_dic["ENTRY"]
+        exit_ = data_dic["EXIT"]
+
+        if width <= 0 or height <= 0:
+            raise ValidationError("width or height is not valid")
+
+        entry_x, entry_y = entry
+        exit_x, exit_y = exit_
+
+        if not (0 <= entry_x < width and 0 <= entry_y < height):
+            raise ValidationError("ENTRY is outside maze bounds")
+
+        if not (0 <= exit_x < width and 0 <= exit_y < height):
+            raise ValidationError("EXIT is outside maze bounds")
+
+        if entry == exit_:
+            raise ValidationError("ENTRY and EXIT must be different")
+
+        
+        return True
         
         
 
@@ -106,6 +117,7 @@ class MazeConfig:
 
         except  (ParseError , ValueError, ValidationError) as e: 
             print(e)
+            exit()
         
 
 
