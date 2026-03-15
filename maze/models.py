@@ -81,6 +81,21 @@ class Maze:
                 cell_b.west = False             
 
 
+    #this method filters neighbors if the cell is marked as unvisited
+    #so it looks for open paths as we cant go through a cell if it walls are closed
+    def get_open_neighbors(self, cell: Cell) -> list:
+        neighbors = []
+        x, y = cell.x, cell.y
+        if not cell.north and self.is_inside(x, y - 1):
+            neighbors.append(self.get_cell(x, y - 1))
+        if not cell.east and self.is_inside(x + 1, y):
+            neighbors.append(self.get_cell(x + 1, y))
+        if not cell.south and self.is_inside(x, y + 1):
+            neighbors.append(self.get_cell(x, y + 1))
+        if not cell.west and self.is_inside(x - 1, y):
+            neighbors.append(self.get_cell(x - 1, y))
+        return neighbors
+
 # def create_grid(self):
 
 
