@@ -1,4 +1,4 @@
-# from errors import ParseError, ValidationError
+#from errors import ParseError, ValidationError
 from maze.errors import ParseError, ValidationError
 
 
@@ -11,6 +11,7 @@ class MazeConfig:
         self.exit = None
         self.output_file = None
         self.perfect = None
+
 
     def read_file(self) -> list:
         try:
@@ -35,7 +36,7 @@ class MazeConfig:
                 key = elemnt[0].strip()
                 value = elemnt[1].strip()
             else :
-                raise ParseError("'=' NOT FOND")
+                raise ParseError("'=' NOT FOUND")
             if key in dic_data.keys():
                 raise ParseError("key is deplicate")
             if key == "WIDTH" or key == "HEIGHT" :

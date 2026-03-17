@@ -34,4 +34,3 @@ def bfs_solver(maze: Maze) -> list[Cell]:
         current = came_from[current]
     path.reverse()
     return path
-
