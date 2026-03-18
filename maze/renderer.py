@@ -1,7 +1,7 @@
 from maze.solver import bfs_solver
 import curses
 import locale
-
+from maze.writer import writer_hex
 
 def render_curses(stdscr, maze, generator):
     locale.setlocale(locale.LC_ALL, '')
@@ -177,7 +177,13 @@ def render_curses(stdscr, maze, generator):
             maze.create_grid()
             generator.place_42_pattern()
             generator.generate()
-            path = bfs_solver(maze)
+
+    
+     
+            # otqori add this -------------------
+            with open("maze.txt", "w") as file: 
+                file.write(writer_hex(maze))
+            #-------------------------------------
             draw()
         elif key == ord('p'):
             show_path = not show_path
@@ -189,3 +195,16 @@ def render_curses(stdscr, maze, generator):
             pair_id = targets[target_idx][0]  # ← this should be 1,2,3,4, or 5
             color_val = colors[selected][0]   # ← the chosen color value
             curses.init_pair(pair_id, color_val, -1)  # ← reinitialize the correct pair
+
+# conf = MazeConfig("config_default.txt")
+# conf.load()
+
+# maze = Maze(conf.width, conf.height, conf.entry, conf.exit)
+# maze.create_grid()
+
+# gene = MazeGenerator(maze)
+# gene.generate()
+
+# render_ascii(maze)
+
+

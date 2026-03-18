@@ -1,63 +1,74 @@
-class Cell:
-    def __init__(self, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
-        self.north = True
-        self.east = True
-        self.south = True
-        self.west = True
-        self.visited = False
-        self.is_42 = False
+from typing import List, Tuple
 
+
+class Cell:
+
+    def __init__(self, x: int, y: int) -> None:
+        self.x: int = x
+        self.y: int = y
+        self.north: bool = True
+        self.east: bool = True
+        self.south: bool = True
+        self.west: bool = True
+        self.visited: bool = False
+        self.is_42: bool = False
 
 class Maze:
-    def __init__(self, width: int, height: int, entry: tuple[int, int], exit: tuple[int, int]) -> None:
-        self.width = width
-        self.height = height
-        self.entry = entry
-        self.exit = exit
-        self.grid = []
+
+    def __init__(
+        self,
+        width: int,
+        height: int,
+        entry: Tuple[int, int],
+        exit_coords: Tuple[int, int]
+    ) -> None:
+        self.width: int = width
+        self.height: int = height
+        self.entry: Tuple[int, int] = entry
+        self.exit: Tuple[int, int] = exit_coords
+        self.grid: List[List[Cell]] = []
 
     def create_grid(self) -> None:
         self.grid = []
         for i in range(self.height):
-            rows = []
+            rows: List[Cell] = []
             for j in range(self.width):
                 rows.append(Cell(j, i))
             self.grid.append(rows)
 
-    def is_inside(self, x, y) -> bool:
+    def is_inside(self, x: int, y: int) -> bool:
         if x < 0 or y < 0:
             return False
         if x >= self.width or y >= self.height:
             return False
         return True
 
-    def get_cell(self, x: int, y: int):
+    def get_cell(self, x: int, y: int) -> Cell:
         return self.grid[y][x]
 
-    def get_neighbors(self, cell: Cell) -> list:
-        x = cell.x
-        y = cell.y
-        neighbors = []
+    def get_neighbors(self, cell: Cell) -> List[Cell]:
+ 
+        x: int = cell.x
+        y: int = cell.y
+        neighbors: List[Cell] = []
 
-        if self.is_inside(x, y + 1) and self.get_cell(x, y + 1).is_42 == False:
+        if self.is_inside(x, y + 1) and not self.get_cell(x, y + 1).is_42:
             neighbors.append(self.get_cell(x, y + 1))
 
-        if self.is_inside(x, y - 1) and self.get_cell(x, y - 1).is_42 == False:
+        if self.is_inside(x, y - 1) and not self.get_cell(x, y - 1).is_42:
             neighbors.append(self.get_cell(x, y - 1))
 
-        if self.is_inside(x + 1, y) and self.get_cell(x + 1, y).is_42== False:
+        if self.is_inside(x + 1, y) and not self.get_cell(x + 1, y).is_42:
             neighbors.append(self.get_cell(x + 1, y))
 
-        if self.is_inside(x - 1, y) and self.get_cell(x - 1, y).is_42 == False:
+        if self.is_inside(x - 1, y) and not self.get_cell(x - 1, y).is_42:
             neighbors.append(self.get_cell(x - 1, y))
 
         return neighbors
 
-    def get_unvisited_neighbors(self, cell) -> list:
-        unvisited_neighbors = []
-        neighbors = self.get_neighbors(cell)
+    def get_unvisited_neighbors(self, cell: Cell) -> List[Cell]:
+        unvisited_neighbors: List[Cell] = []
+        neighbors: List[Cell] = self.get_neighbors(cell)
         for neighbor in neighbors:
             if neighbor.visited is False:
                 unvisited_neighbors.append(neighbor)
@@ -78,13 +89,10 @@ class Maze:
                 cell_b.east = False
             else:
                 cell_a.east = False
-                cell_b.west = False             
+                cell_b.west = False
 
-
-    #this method filters neighbors if the cell is marked as unvisited
-    #so it looks for open paths as we cant go through a cell if it walls are closed
-    def get_open_neighbors(self, cell: Cell) -> list:
-        neighbors = []
+    def get_open_neighbors(self, cell: Cell) -> List[Cell]:
+        neighbors: List[Cell] = []
         x, y = cell.x, cell.y
         if not cell.north and self.is_inside(x, y - 1):
             neighbors.append(self.get_cell(x, y - 1))
@@ -95,28 +103,3 @@ class Maze:
         if not cell.west and self.is_inside(x - 1, y):
             neighbors.append(self.get_cell(x - 1, y))
         return neighbors
-
-# def create_grid(self):
-
-
-# MazeConfig
-#    ↓
-# Maze(width, height, entry, exit)
-#    ↓
-# Maze creates grid
-#    ↓
-# grid contains Cell objects
-#    ↓
-# Maze ready for generation 
-
-
-# grid[0][0]  grid[0][1]  grid[0][2]  grid[0][3]
-# grid[1][0]  grid[1][1]  grid[1][2]  grid[1][3]
-# grid[2][0]  grid[2][1]  grid[2][2]  grid[2][3]
-
-# conf = MazeConfig("../config_default.txt")
-# conf.load()
-
-# maze = Maze(conf.width, conf.height, conf.entry, conf.exit)
-
-# maze.create_grid()
