@@ -263,8 +263,8 @@ All AI-generated content was reviewed, tested, and understood before being inclu
 
 | Member | Role |
 |--------|------|
-| `<login1>` | Maze generation (DFS algorithm, models, generator class), package creation |
-| `<login2>` | Configuration parser, BFS solver, curses renderer, animations |
+| `otqori` | Parsing configuration, Maze generation (DFS algorithm, models, generator class) |
+| `yelallam` | package creation, BFS solver, curses renderer, animations |
 
 ### Planning
 
